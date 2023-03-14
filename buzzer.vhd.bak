@@ -1,0 +1,65 @@
+Library ieee;
+Use ieee.std_logic_1164.all;
+Use ieee.numeric_std.all;
+
+
+entity buzzer is 
+port ( 
+		decompteur : in std_logic_vector (3 downto 0); 
+		clock : in std_logic; 
+		led1  : in std_logic; 
+		s : out std_logic 
+		);
+end buzzer; 
+
+
+architecture Behavioral of buzzer is 
+
+signal cnt 
+
+begin 
+
+process (led1, decompteur, s ) 
+
+begin
+
+	if led1 = ‘1’ then 
+		if decompteur = ‘0101’ and decompteur <= ‘0111’ 
+			if cnt <= 25000 then 
+            s <= ‘1’;
+            cnt <= cnt+1;
+        elsif cnt > 25000 and cnt < 50000 then 
+            s <= ‘0’;
+            cnt <= cnt+1;
+        elsif cnt = 50000 then 
+            cnt = 0; 
+        end if; 
+    elsif decompteur >= ‘0011’ and decompteur <= ‘0101’ then 
+        if cnt <= 25000 then 
+            s <= ‘1’;
+            cnt <= cnt+3;
+        elsif cnt > 25000 and cnt < 50000 then 
+            s <= ‘0’;
+            cnt <= cnt+3;
+        elsif cnt = 50000 then 
+            cnt = 0; 
+        end if; 
+    elsif  decompteur >= ‘0000’ and decompteur <= ‘0011’ then 
+        if cnt <= 25000 then 
+            s <= ‘1’;
+            cnt <= cnt+8;
+        elsif cnt > 25000 and cnt < 50000 then 
+            s <= ‘0’;
+            cnt <= cnt+8;
+        elsif cnt = 50000 then 
+            cnt = 0; 
+        end if; 
+    elsif decompteur < ‘0000’ then 
+        a<= ‘0’; 
+    end if;
+elsif led1 = ‘0’ then 
+a<= ‘0’ ; 
+end if ; 
+end process ; 
+
+end Behavioral

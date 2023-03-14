@@ -1,0 +1,26 @@
+-- la bibliothèque ieee contient les paquetages dont la déclaration suit
+library ieee;
+--ce paquetage permet l'utilisation des types STD_LOGIC et STD_LOGIC_VECTOR
+use ieee.std_logic_1164.all;
+-- permet d'utiliser le type STD_LOGIC_VECTOR avec des entiers
+use ieee.std_logic_unsigned.all;
+entity DECODEUR is
+ port (BCD : in STD_LOGIC_VECTOR (3 downto 0);
+ SEG : out STD_LOGIC_VECTOR ( 6 downto 0) );
+end DECODEUR;
+
+architecture ARCH_DEC of DECODEUR is
+ begin
+-- attention les leds s'allument pour une sortie à 0
+ SEG <= "1000000" when BCD=0 else
+ "1111001" when BCD=1 else
+ "0100100" when BCD=2 else
+ "0110000" when BCD=3 else
+ "0011001" when BCD=4 else
+ "0010010" when BCD=5 else
+ "0000010" when BCD=6 else
+ "1111000" when BCD=7 else
+ "0000000" when BCD=8 else
+ "0010000" when BCD=9 else
+ "1111111" ;
+end ARCH_DEC ;

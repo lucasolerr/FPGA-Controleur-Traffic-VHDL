@@ -1,0 +1,50 @@
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
+USE IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+
+ENTITY compteur IS
+	PORT (
+			clk : IN STD_LOGIC;
+			start : IN STD_LOGIC;
+			stop : IN STD_LOGIC;
+			compt_sortie : OUT STD_LOGIC_VECTOR(4 DOWNTO 0)
+		  );
+END compteur;
+
+
+ARCHITECTURE rtl OF compteur IS
+
+SIGNAL s_compt_sortie : STD_LOGIC_VECTOR(4 DOWNTO 0);
+SIGNAL s_jecompte : STD_LOGIC;
+
+BEGIN
+
+PROCESS (clk)
+BEGIN
+	IF clk'EVENT AND clk = '1' THEN
+		IF s_jecompte = '1' THEN
+			IF s_compt_sortie >= 23 THEN
+				s_compt_sortie <= "00000";
+			ELSE
+				s_compt_sortie <= s_compt_sortie + 1;
+			END IF;
+		END IF;
+	END IF;
+END PROCESS;
+
+
+PROCESS (clk)
+BEGIN
+	IF clk'EVENT AND clk = '1' THEN
+		IF start = '1' THEN
+			s_jecompte <= '1';
+		ELSIF stop = '1' THEN
+			s_jecompte <= '0';
+		END IF;
+	END IF;
+END PROCESS;
+
+	compt_sortie <= s_compt_sortie;
+	
+END;

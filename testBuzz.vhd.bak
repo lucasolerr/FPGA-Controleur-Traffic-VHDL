@@ -1,0 +1,100 @@
+Library ieee;
+Use ieee.std_logic_1164.all;
+Use ieee.numeric_std.all;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use ieee.std_logic_unsigned.all;
+
+entity testBuzz is 
+port ( 
+		decompteur : in std_logic_vector(3 downto 0) ; 
+		clock, reset : in std_logic ; 
+		is_buzzer_on  : in std_logic ; 
+		s : out std_logic 
+		);
+		
+end testBuzz; 
+
+architecture testBehavioral of testBuzz is 
+
+signal i: integer;
+signal valeurMin: integer;
+signal valeurMax: integer;
+
+begin 
+
+	process (clock, reset) 
+	
+
+	begin
+
+	if (reset= '1') then
+	
+		i <= 0; 
+		 
+	elsif (rising_edge(clock)) then 
+	
+		if (i < valeurMax) then
+		
+			i <= i + 1; 
+			
+		else 
+		
+			i <= 0;
+			
+		end if;
+	end if;
+	end process;
+	
+	process (decompteur, i, valeurMax, valeurMin) 
+	begin
+	
+		
+		if (decompteur <= "1111" and decompteur >= "1101") then
+			
+			valeurMin <= 50000000;
+			valeurMax <= 100000000;
+
+		elsif (decompteur <= "1101" and decompteur >= "1001") then
+			
+			valeurMin <= 25000000;
+			valeurMax <= 50000000;
+			
+		elsif (decompteur <= "1001" and decompteur >= "0110") then
+			
+			valeurMin <= 12500000;
+			valeurMax <= 25000000;
+			
+		elsif (decompteur <= "0110" and decompteur >= "0011") then
+			
+			valeurMin <= 6000000;
+			valeurMax <= 12500000;
+			
+		elsif (decompteur <= "0011" and decompteur >= "0000") then
+			
+			valeurMin <= 3000000;
+			valeurMax <= 6000000;
+			
+
+		end if; 
+		end process;
+		
+		process (i,valeurMax, valeurMin)
+		begin
+		
+		if(i < valeurMin) then 
+		
+			s <= '1';
+			
+		elsif(i >= valeurMin and i < valeurMax) then 
+		
+			s <= '0';
+		
+		elsif(i >= valeurMax) then
+		
+			s <= '0';
+			--i <= 0;
+		 
+		end if;
+		end process; 
+
+end testBehavioral;

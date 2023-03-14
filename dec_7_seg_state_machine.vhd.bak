@@ -1,0 +1,49 @@
+Library ieee;
+Use ieee.std_logic_1164.all;
+
+entity dec_7_seg_state_machine is
+PORT (
+		nombre: in std_logic_vector (2 downto 0);
+		segments1: out std_logic_vector (6 downto 0);
+		segments2: out std_logic_vector (6 downto 0)
+);
+end dec_7_seg_state_machine;
+
+architecture DESCRIPTION of dec_7_seg_state_machine is
+
+begin
+
+	process(nombre)
+	
+	begin
+		case nombre is
+			when "000" =>
+					segments1 <= "0001000"; --R
+					segments2 <= "1000001"; --V
+			when "001" => 
+					segments1 <= "0001000"; --R
+					segments2 <= "1000000"; --O
+
+			when "010" => 
+					segments1 <= "0001000"; --R
+					segments2 <= "0001000"; --R
+			when "011" => 
+					segments1 <= "1000000"; --O
+					segments2 <= "1000000"; --O
+			when "100" => 
+					segments1 <= "1000001"; --V
+					segments2 <= "0001000"; --R
+			when "101" => 
+					segments1 <= "1000000"; --O
+					segments2 <= "0001000"; --R
+			when "110" => 
+					segments1 <= "0001000"; --R
+					segments2 <= "0001000"; --R
+			when others =>
+					segments1 <= "0000000";
+					segments2 <= "0000000";
+		end case;
+		
+	end process;
+
+end DESCRIPTION;

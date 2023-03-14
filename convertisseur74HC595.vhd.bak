@@ -1,0 +1,80 @@
+Library ieee;
+Use ieee.std_logic_1164.all;
+
+
+ENTITY convertisseur74HC595 IS
+    PORT (
+			vector_bit : in std_logic_vector (5 downto 0);
+			compteur : in std_logic_vector (2 downto 0);
+			data_out : out std_logic;
+			SH_CP : out std_logic;
+			ST_CP : out std_logic
+        
+    );
+END convertisseur74HC595;
+
+ARCHITECTURE BEHAVIOR OF convertisseur74HC595 IS
+BEGIN
+    PROCESS (clock,reset)
+    BEGIN
+        IF (reset='1') THEN
+
+        ELSIF (clock='1' AND clock'event) THEN
+
+        END IF;
+    END PROCESS;
+
+    PROCESS (compteur)
+    BEGIN
+	 
+		  ST_CP <= "0";
+		  
+        CASE compteur IS
+            WHEN "000" =>
+						data_out <= vector_bit(0);
+						ST_CP <= "0";
+						
+
+            WHEN "001" =>
+						data_out <= vector_bit(1);
+						ST_CP <= "0";
+                
+					 
+            WHEN "010" =>
+						data_out <= vector_bit(2);
+						ST_CP <= "0";
+                
+					 
+            WHEN "011" =>
+						data_out <= vector_bit(3);
+						ST_CP <= "0";
+                
+					 
+            WHEN "100" =>
+						data_out <= vector_bit(4);
+						ST_CP <= "0";
+                
+					 
+					 
+            WHEN "101" =>
+						data_out <= vector_bit(5);
+						ST_CP <= "0";
+                
+					 
+            WHEN "110" =>
+						data_out <= "0";
+						ST_CP <= "0";
+                
+            WHEN "111" =>
+						data_out <= "0";
+						ST_CP <= "1";
+                
+            WHEN OTHERS => 
+                data_out <= "0";
+					 ST_CP <= "0";
+                report "Reach undefined state";
+        END CASE;
+		  
+    END PROCESS;	 
+	 
+END BEHAVIOR;
